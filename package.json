@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/davideliason/weather-app#readme",
   "dependencies": {
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "yargs": "^4.8.1"
   }
 }
