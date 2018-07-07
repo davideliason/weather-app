@@ -1,6 +1,6 @@
 var request = require('request');
 
-var geocodeAddress = (searchAddress) => {
+var geocodeAddress = (searchAddress, callback) => {
 
     var encodedAddress = encodeURIComponent(searchAddress);
 
@@ -9,13 +9,15 @@ var geocodeAddress = (searchAddress) => {
         json: true
     }, (error, response, body) => {
         if (error) {
-            console.log("couldn't connect");
+            callback("couldn't connect");
         } else if (body.status === 'ZERO_RESULTS') {
-            console.log("no such address");
-        } else {
-            console.log(`Address: ${body.results[0].formatted_address}`);
-            console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
-            console.log(`Longitude: ${body.results[0].geometry.location.lng}`);
+            callback("no such address");
+        } else if (body.status === 'OK') {
+            callback(undefined, {
+                address: body.results[0].formatted_address,
+                latitude: body.results[0].geometry.location.lat,
+                longitude: body.results[0].geometry.location.lng
+            })
         }
     });
 }
